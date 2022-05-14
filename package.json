@@ -1,0 +1,12 @@
+{
+  "name": "add-music-to-video",
+  "version": "1.0.0",
+  "description": "Add background music to my videos very easily",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
