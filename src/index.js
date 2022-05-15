@@ -62,7 +62,7 @@ const argv = mainOptions._unknown || [];
   if (mainOptions.help) {
     help();
   }
-  (handlers[mainOptions.command.toLowerCase() || "install"] || help)();
+  (handlers[mainOptions.command?.toLowerCase() || "install"] || help)();
 })();
 
 /**
