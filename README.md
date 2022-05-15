@@ -11,7 +11,7 @@ I wanted the easiest way to add random music to videos, hence this project.
 To install on your Windows machine:
 
 ```sh
-npx add-music-to-video
+npm i -g add-music-to-video
 ```
 
 Now, you can add music to any video by:
