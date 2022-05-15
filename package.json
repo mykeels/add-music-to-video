@@ -8,9 +8,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "npm i -D ffmpeg-static"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["music", "video", "random", "wolfram tones", "ffmpeg"],
+  "author": "mykeels",
+  "license": "MIT",
   "peerDependencies": {
     "ffmpeg-static": "^5.0.0"
   },
