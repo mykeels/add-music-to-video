@@ -28,4 +28,4 @@ npx add-music-to-video uninstall
 ## Credits
 
 - [Wolfram Tones](https://tones.wolfram.com/generate/GtcqZlxi25yPmgvxHRIEQTagP54Du87b276wY8Mg) is amazing. We couldn't have gotten random music without them.
-- FFMpeg
+- ffmpeg

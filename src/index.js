@@ -5,6 +5,7 @@ const commandLineUsage = require("command-line-usage");
 
 const run = require("./run");
 const install = require("./install");
+const uninstall = require("./uninstall");
 
 const usage = commandLineUsage([
   {
@@ -24,6 +25,7 @@ const usage = commandLineUsage([
         defaultOption: "[default]",
       },
       { name: "run", summary: "Runs this program" },
+      { name: "uninstall", summary: "Uninstalls this program" },
     ],
   },
   {
@@ -53,6 +55,7 @@ const argv = mainOptions._unknown || [];
   /** @type {{ [key: BuilderCommands]: () => Promise<any> }} */
   const handlers = {
     install: () => install({ argv }),
+    uninstall: () => uninstall({ argv }),
     run: () => run({ argv }).catch(console.error),
   };
   const help = () => {
