@@ -11,6 +11,9 @@
   "keywords": ["music", "video", "random", "wolfram tones", "ffmpeg"],
   "author": "mykeels",
   "license": "MIT",
+  "repository": {
+    "url": "https://github.com/mykeels/add-music-to-video"
+  },
   "peerDependencies": {
     "ffmpeg-static": "^5.0.0"
   },
