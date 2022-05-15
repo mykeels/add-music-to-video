@@ -2,6 +2,7 @@ const path = require("path");
 const shellContextMenu = require("shell-context-menu");
 
 const install = async (options) => {
+  console.log("Installing to", __dirname);
   await shellContextMenu.removeCommand("Add Music to Video").catch(() => {});
   await shellContextMenu.registerCommand({
     name: "Add Music to Video",
