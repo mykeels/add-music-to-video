@@ -13,7 +13,7 @@
     "watch": "tsup src/*.ts --watch",
     "ts": "tsc",
     "ts:watch": "tsc -w",
-    "postinstall": "test -f dist/index.js && node dist/index.js"
+    "postinstall": "if [ -f dist/index.js ]; then node dist/index.js; fi"
   },
   "keywords": [
     "music",
