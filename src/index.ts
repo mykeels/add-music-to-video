@@ -1,11 +1,11 @@
 #! /usr/bin/env node
 
-const commandLineArgs = require("command-line-args");
-const commandLineUsage = require("command-line-usage");
+import commandLineArgs from "command-line-args";
+import commandLineUsage from "command-line-usage";
 
-const run = require("./run");
-const install = require("./install");
-const uninstall = require("./uninstall");
+import run from "./run";
+import install from "./install";
+import uninstall from "./uninstall";
 
 const usage = commandLineUsage([
   {
@@ -39,23 +39,19 @@ const usage = commandLineUsage([
   },
 ]);
 
-/**
- * @type {commandLineArgs.CommandLineOptions & { command: CLICommands, help: boolean }}
- */
 const mainOptions = commandLineArgs(
   [
     { name: "help", alias: "h", type: Boolean },
     { name: "command", defaultOption: true },
   ],
   { stopAtFirstUnknown: true }
-);
+) as commandLineArgs.CommandLineOptions & { command: CLICommand, help: boolean };
 const argv = mainOptions._unknown || [];
 
 (async () => {
-  /** @type {{ [key: BuilderCommands]: () => Promise<any> }} */
-  const handlers = {
-    install: () => install({ argv }),
-    uninstall: () => uninstall({ argv }),
+  const handlers: Record<CLICommand, () => Promise<any>> = {
+    install: () => install(),
+    uninstall: () => uninstall(),
     run: () => run({ argv }).catch(console.error),
   };
   const help = () => {
@@ -65,9 +61,8 @@ const argv = mainOptions._unknown || [];
   if (mainOptions.help) {
     help();
   }
-  (handlers[mainOptions.command?.toLowerCase() || "install"] || help)();
+  const command = (mainOptions.command?.toLowerCase() || "install") as CLICommand;
+  (handlers[command] || help)();
 })();
 
-/**
- * @typedef {"install" | "run"} CLICommands
- */
+type CLICommand = "install" | "run" | "uninstall";

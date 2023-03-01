@@ -1,7 +1,7 @@
-const path = require("path");
-const shellContextMenu = require("shell-context-menu");
+import path from "path";
+import shellContextMenu from "shell-context-menu";
 
-const install = async (options) => {
+export const install = async () => {
   console.log("Installing to", __dirname);
   await shellContextMenu.removeCommand("Add Music to Video").catch(() => {});
   await shellContextMenu.registerCommand({
@@ -13,5 +13,4 @@ const install = async (options) => {
   console.log("Created context menu");
 };
 
-module.exports = install;
-module.exports.handleCommand = install;
+export default install;

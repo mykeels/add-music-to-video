@@ -2,11 +2,18 @@
   "name": "add-music-to-video",
   "version": "1.0.5",
   "description": "Add background music to my videos very easily",
-  "bin": "src/index.js",
-  "main": "src/index.js",
+  "bin": "dist/index.js",
+  "main": "dist/index.js",
+  "typings": "dist",
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "node src/index.js"
+    "build": "tsup src/*.ts",
+    "watch": "tsup src/*.ts --watch",
+    "ts": "tsc",
+    "ts:watch": "tsc -w",
+    "postinstall": "if [ -f dist/index.js ]; then node dist/index.js; fi"
   },
   "keywords": [
     "music",
@@ -27,10 +34,16 @@
     "fast-glob": "^3.2.11",
     "ffmpeg": "github:damianociarla/node-ffmpeg",
     "ffmpeg-static": "^5.0.0",
-    "get-random-music": "^1.0.2",
+    "get-random-music": "^1.0.4",
     "shell-context-menu": "^1.0.2"
   },
   "devDependencies": {
-    "ffmpeg-static": "^5.0.0"
+    "@types/command-line-args": "^5.2.0",
+    "@types/command-line-usage": "^5.0.2",
+    "@types/ffmpeg": "^1.0.4",
+    "@types/node": "^18.14.2",
+    "ffmpeg-static": "^5.0.0",
+    "tsup": "^6.6.3",
+    "typescript": "^4.9.5"
   }
 }
