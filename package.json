@@ -34,7 +34,7 @@
     "fast-glob": "^3.2.11",
     "ffmpeg": "github:damianociarla/node-ffmpeg",
     "ffmpeg-static": "^5.0.0",
-    "get-random-music": "^1.0.3",
+    "get-random-music": "^1.0.4",
     "shell-context-menu": "^1.0.2"
   },
   "devDependencies": {
