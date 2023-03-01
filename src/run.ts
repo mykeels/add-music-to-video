@@ -1,14 +1,15 @@
-const fs = require("fs");
-const fg = require("fast-glob");
-const path = require("path");
-const FFMpeg = require("ffmpeg");
-const ffmpegPath = require("ffmpeg-static");
-const getRandomMusic = require("get-random-music");
-const { execSync } = require("child_process");
+import fs from "fs";
+import fg from "fast-glob";
+import path from "path";
+import FFMpeg from "ffmpeg";
+import ffmpegPath from "ffmpeg-static";
+import getRandomMusic from "get-random-music";
+import { execSync } from "child_process";
+import { assert } from "./utils/assert.utils";
 
-FFMpeg.bin = ffmpegPath;
+(FFMpeg as any).bin = ffmpegPath;
 
-const getRepeatedAudioPath = async (audioPath, duration) => {
+const getRepeatedAudioPath = async (audioPath: string, duration: number) => {
   console.log("Expanding Music to fit video of", duration, "seconds");
   const audioRepeatCount = Math.ceil(duration / 15);
   const repeatInputFile = path
@@ -38,12 +39,7 @@ const getRepeatedAudioPath = async (audioPath, duration) => {
   return audioRepeatedFilePath;
 };
 
-/**
- *
- * @param {number} duration
- * @returns {Promise<string>}
- */
-const makeMusic = async (duration) => {
+const makeMusic = async (duration: number): Promise<string> => {
   console.log("Making Music");
   const musicFilePath = path.join(__dirname, "random-music.mp3");
   const outStream = fs.createWriteStream(musicFilePath);
@@ -52,7 +48,8 @@ const makeMusic = async (duration) => {
     downloadStream.pipe(outStream);
     downloadStream.on("error", (error) => {
       console.error(error);
-      downloadStream.close();
+      (downloadStream as any).destroy && (downloadStream as any).destroy();
+      (downloadStream as any).close && (downloadStream as any).close();
       reject();
     });
     downloadStream.on("close", () => {
@@ -69,19 +66,16 @@ const cleanupFiles = async () => {
     cwd: __dirname,
   });
   for (let file of files) {
-    fs.rmSync(path.join(__dirname, file), { force: true });
+    fs.unlinkSync(path.join(__dirname, file));
     console.log("Removed", path.join(__dirname, file));
   }
 };
 
-/**
- *
- * @param {object} options
- * @param {string[]} options.argv
- * @param {boolean} options.help
- * @param {string} options.command
- */
-const run = async (options) => {
+export const run = async (options: {
+  argv: string[];
+  help?: boolean;
+  command?: string;
+}) => {
   const file = options.argv?.join(" ");
   const allowedFormats = [".mp4"];
   if (!allowedFormats.some((format) => file.endsWith(format))) {
@@ -99,7 +93,9 @@ const run = async (options) => {
     .replace(/\.\w+$/, "");
 
   const video = await new FFMpeg(file);
-  const musicFilePath = await makeMusic(video.metadata.duration.seconds);
+  const musicFilePath = await makeMusic(
+    assert(video.metadata.duration).seconds
+  );
   const videoOutputFile = path.join(
     outDir,
     `${filename}_with_music.mp4`.replace(/ /g, "_")
@@ -112,5 +108,4 @@ const run = async (options) => {
   await cleanupFiles();
 };
 
-module.exports = run;
-module.exports.run = run;
+export default run;
