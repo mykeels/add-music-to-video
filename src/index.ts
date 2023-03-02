@@ -61,7 +61,7 @@ const argv = mainOptions._unknown || [];
   if (mainOptions.help) {
     help();
   }
-  const command = (mainOptions.command?.toLowerCase() || "install") as CLICommand;
+  const command = (mainOptions.command?.toLowerCase() || "run") as CLICommand;
   (handlers[command] || help)();
 })();
 
