@@ -1,7 +1,13 @@
 import path from "path";
 import shellContextMenu from "shell-context-menu";
+import os from "os";
 
 export const install = async () => {
+  if (os.platform() !== "win32") {
+    console.log("OS:", os.platform());
+    console.log("Not on Windows, skipping context menu installation");
+    return;
+  }
   console.log("Installing to", __dirname);
   await shellContextMenu.removeCommand("Add Music to Video").catch(() => {});
   await shellContextMenu.registerCommand({
