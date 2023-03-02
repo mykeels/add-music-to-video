@@ -13,7 +13,7 @@
     "watch": "tsup src/*.ts --watch",
     "ts": "tsc",
     "ts:watch": "tsc -w",
-    "postinstall": "if [ -f dist/index.js ]; then node dist/index.js; fi"
+    "postinstall": "if [ -f dist/index.js ]; then node dist/index.js install; fi"
   },
   "keywords": [
     "music",
@@ -29,19 +29,23 @@
   },
   "dependencies": {
     "axios": "^0.27.2",
+    "cli-file-select": "^0.0.2",
     "command-line-args": "^5.2.1",
     "command-line-usage": "^6.1.3",
     "fast-glob": "^3.2.11",
     "ffmpeg": "github:damianociarla/node-ffmpeg",
     "ffmpeg-static": "^5.0.0",
     "get-random-music": "^1.0.4",
-    "shell-context-menu": "^1.0.2"
+    "prompts": "^2.4.2",
+    "shell-context-menu": "^1.0.2",
+    "ytdl-core": "^4.11.2"
   },
   "devDependencies": {
     "@types/command-line-args": "^5.2.0",
     "@types/command-line-usage": "^5.0.2",
     "@types/ffmpeg": "^1.0.4",
     "@types/node": "^18.14.2",
+    "@types/prompts": "^2.4.2",
     "ffmpeg-static": "^5.0.0",
     "tsup": "^6.6.3",
     "typescript": "^4.9.5"
