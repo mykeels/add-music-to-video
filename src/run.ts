@@ -44,7 +44,7 @@ const getRepeatedAudioPath = async (audioPath: string, duration: number) => {
 };
 
 const downloadRandomMusic = async (duration: number): Promise<string> => {
-  console.log("Making Music");
+  console.log("Downloading Random Music");
   const musicFilePath = path.join(__dirname, "random-music.mp3");
   const outStream = fs.createWriteStream(musicFilePath);
   const downloadStream = await getRandomMusic().then((res) => res.data);
