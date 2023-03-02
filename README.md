@@ -8,6 +8,14 @@ I wanted the easiest way to add random music to videos, hence this project.
 
 ## Usage
 
+To use:
+
+```sh
+npx add-music-to-video
+```
+
+## Install
+
 To install on your Windows machine:
 
 ```sh
