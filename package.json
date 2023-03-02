@@ -1,6 +1,6 @@
 {
   "name": "add-music-to-video",
-  "version": "1.0.5",
+  "version": "1.0.8",
   "description": "Add background music to my videos very easily",
   "bin": "dist/index.js",
   "main": "dist/index.js",
@@ -13,7 +13,7 @@
     "watch": "tsup src/*.ts --watch",
     "ts": "tsc",
     "ts:watch": "tsc -w",
-    "postinstall": "if [ -f dist/index.js ]; then node dist/index.js install; fi"
+    "postinstall": "npx -y do-if-exists dist/index.js \"node dist/index.js install\""
   },
   "keywords": [
     "music",
