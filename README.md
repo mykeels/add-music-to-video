@@ -14,12 +14,20 @@ To use:
 npx add-music-to-video
 ```
 
-## Install
-
-To install on your Windows machine:
+or
 
 ```sh
-npm i -g add-music-to-video
+npx add-music-to-video run /path/to/video.mp4
+```
+
+## Installation on Windows machines
+
+By installing this package, you can right-click on a Video file in Windows explorer, and use the context menu to add music to the selected video.
+
+To install:
+
+```sh
+npm i -g add-music-to-video; add-music-to-video install
 ```
 
 Now, you can add music to any video by:
