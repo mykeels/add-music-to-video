@@ -11,6 +11,7 @@
   "scripts": {
     "build": "tsup src/*.ts",
     "watch": "tsup src/*.ts --watch",
+    "postbuild": "npx -y cpx src/run.cmd dist",
     "ts": "tsc",
     "ts:watch": "tsc -w",
     "postinstall": "npx -y do-if-exists dist/index.js \"node dist/index.js install\""
