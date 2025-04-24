@@ -32,9 +32,8 @@
   },
   "dependencies": {
     "axios": "^0.27.2",
+    "cac": "^6.7.14",
     "cli-file-select": "^0.0.2",
-    "command-line-args": "^5.2.1",
-    "command-line-usage": "^6.1.3",
     "fast-glob": "^3.2.11",
     "ffmpeg": "github:damianociarla/node-ffmpeg",
     "ffmpeg-static": "^5.0.0",

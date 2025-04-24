@@ -3,6 +3,7 @@ import prompts from "prompts";
 import { downloadRandomMusic } from "./random.music";
 import { downloadYoutubeMusic } from "./youtube.music";
 import { downloadLocalMusic } from "./local.music";
+import { CliOptions } from "../../types/cli";
 
 const channels = [
   {
@@ -19,7 +20,7 @@ const channels = [
   },
 ] as const;
 
-type Channel = typeof channels[number]["value"];
+export type Channel = (typeof channels)[number]["value"];
 
 const selectChannel = async (): Promise<Channel> => {
   return prompts({
@@ -32,6 +33,7 @@ const selectChannel = async (): Promise<Channel> => {
 
 export const downloadMusic = async (
   duration: number,
+  options: CliOptions = {},
   {
     select = selectChannel,
     getLocalMusic = downloadLocalMusic,
@@ -39,11 +41,26 @@ export const downloadMusic = async (
     getRandomMusic = downloadRandomMusic,
   } = {}
 ): Promise<string> => {
-  const channel = await select();
+  const channel = options.musicSource || (await select());
+
   if (channel === "local") {
-    return getLocalMusic(duration);
+    if (!options.localMusicPath) {
+      throw new Error(
+        "Local music path is required when using local music source"
+      );
+    }
+    return getLocalMusic(duration, {
+      getFilePath: async () => options.localMusicPath!,
+    });
   } else if (channel === "youtube") {
-    return getYoutubeMusic(duration);
+    if (!options.youtubeUrl) {
+      throw new Error(
+        "YouTube URL is required when using YouTube music source"
+      );
+    }
+    return getYoutubeMusic(duration, {
+      getYoutubeUrl: async () => options.youtubeUrl!,
+    });
   } else {
     return getRandomMusic(duration);
   }
