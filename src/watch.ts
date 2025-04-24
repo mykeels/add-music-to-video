@@ -54,7 +54,7 @@ export const watch = async (options: WatchOptions) => {
   });
 
   // Handle errors
-  watcher.on("error", (error: Error) => {
+  watcher.on("error", (error: unknown) => {
     console.error("Watch error:", error);
   });
 
