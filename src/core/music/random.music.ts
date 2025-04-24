@@ -5,7 +5,7 @@ import { execSync } from "child_process";
 
 const expandMp3 = async (audioPath: string, duration: number) => {
   console.log("Expanding Music to fit video of", duration, "seconds");
-  const audioRepeatCount = Math.ceil(duration / 15);
+  const audioRepeatCount = Math.max(Math.ceil(duration / 15), 1);
   const repeatInputFile = path
     .join(__dirname, "audio-repeat.txt")
     .replace(/\\/g, "\\\\");

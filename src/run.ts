@@ -49,7 +49,7 @@ export const run = async (
     getInputVideoFilePath = selectVideoFile,
     getVideoDuration = async (filePath: string) => {
       const video = await new FFMpeg(filePath);
-      return assert(video.metadata.duration).seconds;
+      return assert(video.metadata.duration).seconds || 60;
     },
     getMusicFilePath = downloadMusic,
     cleanup = cleanupFiles,
@@ -71,6 +71,7 @@ export const run = async (
   console.log("Input:", inVideoFilePath);
 
   const duration = await getVideoDuration(inVideoFilePath);
+  console.log("Duration:", duration);
 
   const audioFilePath =
     options.outputPath || (await getMusicFilePath(duration, options));

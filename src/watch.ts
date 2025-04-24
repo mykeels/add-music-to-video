@@ -37,10 +37,15 @@ export const watch = async (options: WatchOptions) => {
 
     try {
       console.log(`Processing video: ${filePath}`);
-      await run({
-        inputVideoFilePath: filePath,
-        ...cliOptions,
-      });
+      await run(
+        {
+          ...cliOptions,
+          inputVideoFilePath: filePath,
+        },
+        {
+          getInputVideoFilePath: async () => filePath,
+        }
+      );
 
       // Delete the original file
       fs.unlinkSync(filePath);
@@ -49,7 +54,7 @@ export const watch = async (options: WatchOptions) => {
       console.error(`Error processing ${filePath}:`, error);
     } finally {
       isProcessing = false;
-      processNextFile(); // Process next file in queue
+      await processNextFile(); // Process next file in queue
     }
   };
 
@@ -64,7 +69,7 @@ export const watch = async (options: WatchOptions) => {
 
     filesProcessed.add(filePath);
     processingQueue.push(filePath);
-    processNextFile();
+    await processNextFile();
   });
 
   // Handle errors
