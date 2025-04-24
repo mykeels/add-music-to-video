@@ -1,6 +1,6 @@
 {
   "name": "add-music-to-video",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "Add background music to my videos very easily",
   "bin": "dist/index.js",
   "main": "dist/index.js",
