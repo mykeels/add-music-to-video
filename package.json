@@ -33,6 +33,7 @@
   "dependencies": {
     "axios": "^0.27.2",
     "cac": "^6.7.14",
+    "chokidar": "^4.0.3",
     "cli-file-select": "^0.0.2",
     "fast-glob": "^3.2.11",
     "ffmpeg": "github:damianociarla/node-ffmpeg",

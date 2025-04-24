@@ -5,7 +5,8 @@ import cac from "cac";
 import run from "./run";
 import install from "./install";
 import uninstall from "./uninstall";
-import { Channel, downloadMusic } from "./core/music";
+import { Channel } from "./core/music";
+import { watch } from "./watch";
 
 const cli = cac("add-music-to-video");
 
@@ -42,6 +43,33 @@ runCmd
       );
     }
   );
+
+// Watch command
+cli
+  .command("watch", "Watch a folder for new videos and automatically add music")
+  .option("-i, --input <path>", "Folder path to watch (required)")
+  .option("-m, --music-source <source>", "Music source (youtube, local, random)", {
+    default: "random"
+  })
+  .option("-y, --youtube-url <url>", "Youtube URL (required for youtube source)")
+  .option("-l, --local-music-path <path>", "Local music file path (required for local source)")
+  .option("-o, --output-path <path>", "Output video file path")
+  .action((args) => {
+    if (!args.input) {
+      console.error("Error: --input option is required");
+      process.exit(1);
+    }
+
+    const options = {
+      inputPath: args.input,
+      musicSource: args.musicSource,
+      youtubeUrl: args.youtubeUrl,
+      localMusicPath: args.localMusicPath,
+      outputPath: args.outputPath
+    };
+    
+    return watch(options);
+  });
 
 cli.command("install", "Installs this program").action(install);
 
