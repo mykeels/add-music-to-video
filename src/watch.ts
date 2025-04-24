@@ -24,6 +24,34 @@ export const watch = async (options: WatchOptions) => {
   });
 
   const filesProcessed = new Set<string>();
+  const processingQueue: string[] = [];
+  let isProcessing = false;
+
+  const processNextFile = async () => {
+    if (isProcessing || processingQueue.length === 0) {
+      return;
+    }
+
+    isProcessing = true;
+    const filePath = processingQueue.shift()!;
+
+    try {
+      console.log(`Processing video: ${filePath}`);
+      await run({
+        inputVideoFilePath: filePath,
+        ...cliOptions,
+      });
+
+      // Delete the original file
+      fs.unlinkSync(filePath);
+      console.log(`Deleted original file: ${filePath}`);
+    } catch (error) {
+      console.error(`Error processing ${filePath}:`, error);
+    } finally {
+      isProcessing = false;
+      processNextFile(); // Process next file in queue
+    }
+  };
 
   watcher.on("all", async (event: string, filePath: string) => {
     if (!canBeProcessed(filePath)) {
@@ -35,22 +63,8 @@ export const watch = async (options: WatchOptions) => {
     }
 
     filesProcessed.add(filePath);
-
-    console.log(`Processing new video: ${filePath}`);
-
-    try {
-      // Process the video
-      await run({
-        inputVideoFilePath: filePath,
-        ...cliOptions,
-      });
-
-      // Delete the original file
-      fs.unlinkSync(filePath);
-      console.log(`Deleted original file: ${filePath}`);
-    } catch (error) {
-      console.error(`Error processing ${filePath}:`, error);
-    }
+    processingQueue.push(filePath);
+    processNextFile();
   });
 
   // Handle errors
