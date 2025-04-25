@@ -12,17 +12,17 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x]
+        node-version: [22.x]
 
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: pnpm/action-setup@v2
+      uses: pnpm/action-setup@v4
       with:
-        version: 6.0.2
+        version: 10
         registry-url: 'https://registry.npmjs.org'
         run_install: |
-            - recursive: true
+            - recursive: false
               args: [--frozen-lockfile, --strict-peer-dependencies]
 
     - run: pnpm ts

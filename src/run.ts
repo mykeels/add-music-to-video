@@ -1,14 +1,14 @@
 import fs from "fs";
 import fg from "fast-glob";
 import path from "path";
-import prompts from "prompts";
 import FFMpeg from "ffmpeg";
 import ffmpegPath from "ffmpeg-static";
 import { execSync } from "child_process";
 
 import { assert } from "./utils/assert.utils";
 import { selectVideoFile } from "./core/video";
-import { downloadMusic } from "./core/music";
+import { Channel, downloadMusic } from "./core/music";
+import { CliOptions, DEFAULT_OPTIONS } from "./types/cli";
 
 (FFMpeg as any).bin = ffmpegPath;
 
@@ -44,22 +44,22 @@ const addMusicToVideo = async (
 };
 
 export const run = async (
-  options: {
-    argv: string[];
-  },
+  options: CliOptions,
   {
     getInputVideoFilePath = selectVideoFile,
     getVideoDuration = async (filePath: string) => {
       const video = await new FFMpeg(filePath);
-      return assert(video.metadata.duration).seconds;
+      return assert(video.metadata.duration).seconds || 60;
     },
     getMusicFilePath = downloadMusic,
     cleanup = cleanupFiles,
     join = addMusicToVideo,
   } = {}
 ) => {
+  // Get input video file path
   const inVideoFilePath =
-    options.argv?.join(" ") || (await getInputVideoFilePath());
+    options.inputVideoFilePath || (await getInputVideoFilePath());
+
   const allowedFormats = [".mp4"];
   if (!allowedFormats.some((format) => inVideoFilePath.endsWith(format))) {
     console.error("Input file not matching allowedFormats", {
@@ -71,7 +71,10 @@ export const run = async (
   console.log("Input:", inVideoFilePath);
 
   const duration = await getVideoDuration(inVideoFilePath);
-  const audioFilePath = await getMusicFilePath(duration);
+  console.log("Duration:", duration);
+
+  const audioFilePath =
+    options.outputPath || (await getMusicFilePath(duration, options));
 
   const outVideoFilePath = await join(audioFilePath, inVideoFilePath);
 

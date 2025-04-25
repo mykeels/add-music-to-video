@@ -4,14 +4,16 @@ import path from "path";
 
 const truncateMp3 = async (mp3File: string, duration: number) => {
   const truncatedMp3File = path.join(__dirname, "truncated-random-music.mp3");
-  execSync(`ffmpeg -i "${mp3File}" -ss ${0} -to ${duration} "${truncatedMp3File}"`);
+  execSync(
+    `ffmpeg -i "${mp3File}" -ss ${0} -to ${duration} "${truncatedMp3File}"`
+  );
   return truncatedMp3File;
 };
 
 export const downloadLocalMusic = async (
   duration: number,
-  { truncate = truncateMp3 } = {}
+  { truncate = truncateMp3, getFilePath = selectFile } = {}
 ): Promise<string> => {
-  const file = await selectFile();
+  const file = await getFilePath();
   return truncate(file, duration);
 };

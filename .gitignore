@@ -132,3 +132,7 @@ dist
 .npmrc
 
 .qodo
+audio-repeat.txt
+src/core/music/*.mp3
+src/core/video/*.mp4
+bun.lock
